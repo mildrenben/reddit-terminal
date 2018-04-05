@@ -1,6 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import Line from './Line'
+import state from '../../store'
 import getRandomInt from '../../utils/getRandomInt'
 
 const LINE_LIMIT = 100
@@ -34,6 +35,11 @@ class Body extends React.Component {
   componentDidMount() {
     // Did originally use a setInterval/clearInterval thing 
     // but you can't change the interval time whilst it's running
+    this.incrementIdx()
+  }
+  componentWillReceiveProps() {
+    this.setState({ idx: 0 })
+    state.stopFake()
     this.incrementIdx()
   }
   render() {

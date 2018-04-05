@@ -4,11 +4,9 @@ import styled from 'styled-components'
 import CommandLine from './CommandLine'
 import Line from './Line'
 import Body from './Body'
-import getFirstText from '../../utils/fakes/getFirstText'
-import getSecondText from '../../utils/fakes/getSecondText'
-import getRandomInt from '../../utils/getRandomInt'
-import weightedDice from '../../utils/weightedDice'
-import flipCoin from '../../utils/flipCoin'
+import getFakeLines from '../../utils/fakes'
+import { view } from 'react-easy-state'
+import state from '../../store'
 import v from '../../styles'
 
 const Root = styled.div`
@@ -27,37 +25,27 @@ class Terminal extends React.Component {
   constructor(props) {
     super(props)
     this.scrollBottom = this.scrollBottom.bind(this)
+    this.state = {
+      lines: this.getLines()
+    }
   }
   scrollBottom() {
     const { scrollHeight } = this.root
     this.root.scrollTop = scrollHeight
   }
+  getLines() {
+    return getFakeLines()
+  }
   render() {
-    const rand = Array(getRandomInt(500,501))
-    const lines = rand.fill('').map(i => {
-      const line = { 
-        number: getRandomInt(0,700),
-        first: { text: getFirstText(), color: weightedDice([
-          { thing: 'pure', weight: 95 }, 
-          { thing: 'yellow', weight: 4 },
-          { thing: 'red', weight: 1 }
-        ]) },
-        second: { text: getSecondText() },
-      }
-      if (flipCoin()) {
-        line.third = { text: `{${flipCoin()}}` }
-      }
-      if (flipCoin()) {
-        line.fourth = weightedDice([
-          { thing: { text: '[built]', color: 'green' }, weight: 90 },
-          { thing: { text: '[not cacheable]', color: 'red' }, weight: 10 }
-        ])
-      }
-      return line
-    })
+    // This is required because it forces a re-render when fakeRun
+    // changes. It's like it's firing an event. It sucks, I know it sucks, but I
+    // couldn't figure out a better way for react-easy-state to handle this.
+    // If anyone knows a more elegant solution, please let me know or pr it! Thanks
+    const foo = state.ui.fakeRun
+
     return (
       <Root innerRef={div => this.root = div}>
-        <Body lines={lines} scrollBottom={this.scrollBottom} />
+        <Body lines={this.getLines()} scrollBottom={this.scrollBottom} />
         <Line first={{ text: '> press a to run all tests' }} />
         <Line first={{ text: '> press f to recompile' }} />
         <CommandLine />
@@ -70,4 +58,4 @@ Terminal.propTypes = {
   
 }
   
-export default Terminal
+export default view(Terminal)

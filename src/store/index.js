@@ -8,7 +8,8 @@ const state = store({
     activeTab: 0,
     tabs: [
       { id: 0, name: 'Default (node.js)' }
-    ]
+    ],
+    fakeRun: null
   },
 
   // ACTIONS
@@ -30,6 +31,13 @@ const state = store({
   },
   makeTabActive ({ id }) {
     state.ui.activeTab = id
+  },
+  // Fake runner
+  runFake ({ type }) {
+    state.ui.fakeRun = type
+  },
+  stopFake () {
+    state.ui.fakeRun = null
   }
 })
 

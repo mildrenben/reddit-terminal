@@ -18,6 +18,7 @@ class HomeScreen extends React.Component {
       }
       if (document.activeElement.id !== 'textInput') {
         if (e.key === 'a') {
+          state.runFake({ type: 'webpack' })
         }
         if (e.key === 'f') {
 
