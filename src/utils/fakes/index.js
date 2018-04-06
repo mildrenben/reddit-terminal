@@ -1,7 +1,7 @@
 import getFirstText from './getFirstText'
 import getSecondText from './getSecondText'
 import getRandomInt from '../getRandomInt'
-import weightedDice from '../weightedDice'
+import weightedDice from '../weighteddice'
 import flipCoin from '../flipCoin'
 
 function getFakeLines () {

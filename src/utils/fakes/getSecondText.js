@@ -1,5 +1,5 @@
 import getRandomInt from '../getRandomInt'
-import weightedDice from '../weightedDice'
+import weightedDice from 'weighteddice'
 
 function getSecondText () {
   const size = weightedDice([
