@@ -3949,6 +3949,10 @@ webpack@3.11.0:
     webpack-sources "^1.0.1"
     yargs "^8.0.2"
 
+weighteddice@1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/weighteddice/-/weighteddice-1.0.1.tgz#498340c54628a82c301dde44dd4cb8bddb920cfc"
+
 whatwg-fetch@>=0.10.0:
   version "2.0.3"
   resolved "https://registry.yarnpkg.com/whatwg-fetch/-/whatwg-fetch-2.0.3.tgz#9c84ec2dcf68187ff00bc64e1274b442176e1c84"
