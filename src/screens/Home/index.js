@@ -1,6 +1,8 @@
 import React from 'react'
-import state from '../../store'
 import Terminal from '../../components/Terminal'
+import state from '../../store'
+import { view } from 'react-easy-state'
+import getFakeLines from '../../utils/fakes'
 
 let textInput = null
 
@@ -33,4 +35,4 @@ class HomeScreen extends React.Component {
   }
 }
 
-export default HomeScreen
+export default view(HomeScreen)

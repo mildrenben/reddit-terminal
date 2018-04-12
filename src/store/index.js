@@ -1,4 +1,5 @@
 import { store } from 'react-easy-state'
+import getFakeLines from '../utils/fakes/index'
 
 const state = store({
   // DATA
@@ -7,18 +8,23 @@ const state = store({
   ui: {
     activeTab: 0,
     tabs: [
-      { id: 0, name: 'Default (node.js)' }
-    ],
-    fakeRun: null
+      // linesFinished defines whether the terminal should run through those
+      // lines when it becomes the active tab
+      { id: 0, name: 'Default (node.js)', lines: [], linesFinished: false }
+    ]
   },
 
   // ACTIONS
   // Tabs
   addTab () {
     const { length } = state.ui.tabs
-    state.ui.tabs.push({ id: length, name: 'node.js' })
+    state.ui.tabs.push({ id: length, name: 'node.js', lines: [] })
     state.ui.activeTab = length
   },
+  // I started with a structure of using only one object as
+  // a function arg and that I'd destructure it below. This is obv great
+  // for larger funcs, but turns out all mine only had like 1 arg lol, it was
+  // too late to turn back as I couldn't be bothered to change style
   removeTab ({ id }) {
     const { tabs, activeTab } = state.ui
     const remainingTabs = [...tabs.slice(0, id), ...tabs.slice(id + 1)]
@@ -34,10 +40,11 @@ const state = store({
   },
   // Fake runner
   runFake ({ type }) {
-    state.ui.fakeRun = type
+    state.ui.tabs[state.ui.activeTab].linesFinished = false
+    state.ui.tabs[state.ui.activeTab].lines = getFakeLines()
   },
-  stopFake () {
-    state.ui.fakeRun = null
+  setLinesFinished () {
+    state.ui.tabs[state.ui.activeTab].linesFinished = true
   }
 })
 

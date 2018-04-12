@@ -25,27 +25,28 @@ class Terminal extends React.Component {
   constructor(props) {
     super(props)
     this.scrollBottom = this.scrollBottom.bind(this)
-    this.state = {
-      lines: this.getLines()
-    }
   }
   scrollBottom() {
     const { scrollHeight } = this.root
     this.root.scrollTop = scrollHeight
   }
+  getActiveTab() {
+    const { activeTab } = state.ui
+    return state.ui.tabs[activeTab]
+  }
   getLines() {
-    return getFakeLines()
+    const activeTab = this.getActiveTab()
+    const lines = activeTab.lines
+    return lines
   }
   render() {
-    // This is required because it forces a re-render when fakeRun
-    // changes. It's like it's firing an event. It sucks, I know it sucks, but I
-    // couldn't figure out a better way for react-easy-state to handle this.
-    // If anyone knows a more elegant solution, please let me know or pr it! Thanks
-    const foo = state.ui.fakeRun
-
     return (
       <Root innerRef={div => this.root = div}>
-        <Body lines={this.getLines()} scrollBottom={this.scrollBottom} />
+        <Body 
+          lines={this.getLines()} 
+          linesFinished={this.getActiveTab().linesFinished}
+          scrollBottom={this.scrollBottom}
+        />
         <Line first={{ text: '> press a to run all tests' }} />
         <Line first={{ text: '> press f to recompile' }} />
         <CommandLine />
