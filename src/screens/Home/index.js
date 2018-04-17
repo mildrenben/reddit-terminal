@@ -23,7 +23,7 @@ class HomeScreen extends React.Component {
           state.runFake({ type: 'webpack' })
         }
         if (e.key === 'f') {
-
+          state.addNewLines({ lines: [] })
         }
       }
     })

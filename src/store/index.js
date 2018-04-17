@@ -8,9 +8,9 @@ const state = store({
   ui: {
     activeTab: 0,
     tabs: [
-      // linesFinished defines whether the terminal should run through those
-      // lines when it becomes the active tab
-      { id: 0, name: 'Default (node.js)', lines: [], linesFinished: false }
+      // linesRead defines the amount of lines the terminal 
+      // has 'ran' through
+      { id: 0, name: 'Default (node.js)', lines: [], linesRead: 0 }
     ]
   },
 
@@ -38,14 +38,28 @@ const state = store({
   makeTabActive ({ id }) {
     state.ui.activeTab = id
   },
+  getActiveTab () {
+    return state.ui.tabs[state.ui.activeTab]
+  },
   // Fake runner
   runFake ({ type }) {
-    state.ui.tabs[state.ui.activeTab].linesFinished = false
-    state.ui.tabs[state.ui.activeTab].lines = getFakeLines()
+    const active = this.getActiveTab()
+    active.lines = getFakeLines()
+    active.linesRead = 0
+  },
+  isLinesFinished () {
+    const active = this.getActiveTab()
+    return active.lines.length === active.linesRead
   },
   setLinesFinished () {
-    state.ui.tabs[state.ui.activeTab].linesFinished = true
+    const active = this.getActiveTab()
+    active.linesRead = active.lines.length
+  },
+  addNewLines ({ lines = [] }) {
+    const active = this.getActiveTab()
+    active.lines = [...active.lines, { first: { text: 'Hello world' } }]
+    active.linesFinished = false
   }
-})
+ })
 
 export default state

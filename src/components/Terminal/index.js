@@ -34,17 +34,12 @@ class Terminal extends React.Component {
     const { activeTab } = state.ui
     return state.ui.tabs[activeTab]
   }
-  getLines() {
-    const activeTab = this.getActiveTab()
-    const lines = activeTab.lines
-    return lines
-  }
   render() {
     return (
       <Root innerRef={div => this.root = div}>
         <Body 
-          lines={this.getLines()} 
-          linesFinished={this.getActiveTab().linesFinished}
+          lines={this.getActiveTab().lines} 
+          linesRead={this.getActiveTab().linesRead}
           scrollBottom={this.scrollBottom}
         />
         <Line first={{ text: '> press a to run all tests' }} />
