@@ -3,9 +3,10 @@ import getSecondText from './getSecondText'
 import getRandomInt from '../getRandomInt'
 import weightedDice from 'weighteddice'
 import flipCoin from '../flipCoin'
+import c from '../../constants'
 
 function getFakeLines () {
-  const rand = Array(getRandomInt(30,100))
+  const rand = Array(getRandomInt(c.FAKE_LINES_LIMIT_LOWER, c.FAKE_LINES_LIMIT_UPPER))
   const lines = rand.fill('').map(i => {
     const line = { 
       number: getRandomInt(0,700),
