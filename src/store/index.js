@@ -44,8 +44,7 @@ const state = store({
   // Fake runner
   runFake ({ type }) {
     const active = this.getActiveTab()
-    active.lines = getFakeLines()
-    active.linesRead = 0
+    active.lines = [...active.lines, ...getFakeLines()]
   },
   isLinesFinished () {
     const active = this.getActiveTab()

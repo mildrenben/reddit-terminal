@@ -52,10 +52,9 @@ class Body extends React.Component {
   }
   componentWillReceiveProps(nextProps) {
     const { linesRead, lines } = nextProps
-    const idx = linesRead
-    this.setState({ idx })
+    this.setState({ idx: linesRead })
     setTimeout(this.props.scrollBottom, 0)
-    if (idx === 0) {
+    if (linesRead !== lines.length) {
       this.incrementIdx()
     }
   }
