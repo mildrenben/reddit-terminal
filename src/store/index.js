@@ -5,6 +5,7 @@ const state = store({
   // DATA
   user: {},
   subs: {},
+  cmd: [],
   ui: {
     activeTab: 0,
     tabs: [
@@ -15,6 +16,7 @@ const state = store({
   },
 
   // ACTIONS
+
   // Tabs
   addTab () {
     const { length } = state.ui.tabs
@@ -41,6 +43,7 @@ const state = store({
   getActiveTab () {
     return state.ui.tabs[state.ui.activeTab]
   },
+
   // Fake runner
   runFake ({ type }) {
     const active = this.getActiveTab()
@@ -58,6 +61,14 @@ const state = store({
     const active = this.getActiveTab()
     active.lines = [...active.lines, { first: { text: 'Hello world' } }]
     active.linesFinished = false
+  },
+
+  // Cmd - command line history
+  command({ message }) {
+    state.cmd = state.cmd.length === 4
+      ? [...state.cmd.slice(1), message]
+      : [...state.cmd, message]
+      console.log(state.cmd)
   }
  })
 

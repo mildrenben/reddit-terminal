@@ -20,7 +20,10 @@ class HomeScreen extends React.Component {
       console.log(me)
     }
     getData()
+
     window.addEventListener('keydown', e => {
+      const a = document.activeElement
+      
       if (e.metaKey && e.key === 't') {
         state.addTab()
       }
@@ -30,12 +33,23 @@ class HomeScreen extends React.Component {
       if (e.metaKey && !isNaN(e.key)) {
         state.makeTabActive({ id: e.key - 1 })
       }
-      if (document.activeElement.id !== 'textInput') {
+
+      // Focus on page
+      if (a.id !== 'textInput') {
         if (e.key === 'a') {
           state.runFake({ type: 'webpack' })
         }
         if (e.key === 'f') {
           state.addNewLines({ lines: [] })
+        }
+      }
+
+      // Focus on textInput
+      if (a.id === 'textInput') {
+        if (e.key === 'Enter') {
+          e.preventDefault()
+          state.command({ message: e.target.textContent })
+          e.target.textContent = ''
         }
       }
     })
