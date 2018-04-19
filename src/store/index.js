@@ -1,5 +1,6 @@
 import { store } from 'react-easy-state'
 import getFakeLines from '../utils/fakes/index'
+import getData from '../utils/request'
 
 const state = store({
   // DATA
@@ -59,16 +60,25 @@ const state = store({
   },
   addNewLines ({ lines = [] }) {
     const active = this.getActiveTab()
-    active.lines = [...active.lines, { first: { text: 'Hello world' } }]
-    active.linesFinished = false
+    active.lines = [...active.lines, ...lines]
   },
 
   // Cmd - command line history
-  command({ message }) {
+  async command({ message }) {
     state.cmd = state.cmd.length === 4
       ? [...state.cmd.slice(1), message]
       : [...state.cmd, message]
-      console.log(state.cmd)
+    
+    const [sub, type, time] = message.split(' ')
+    const data = await getData({sub, type, time})
+    console.log(data)
+    state.addNewLines({
+      lines: data.map(d => ({
+        number: d.ups - d.downs,
+        first: { text: d.title },
+        second: { text: d.url }
+      }))
+    })
   }
  })
 

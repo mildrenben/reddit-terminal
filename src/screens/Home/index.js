@@ -3,24 +3,9 @@ import Terminal from '../../components/Terminal'
 import state from '../../store'
 import { view } from 'react-easy-state'
 import getFakeLines from '../../utils/fakes'
-import snoowrap from 'snoowrap'
-import c from '../../../config'
-
-const r = new snoowrap({
-  userAgent: '',
-  clientId: c.clientId,
-  clientSecret: c.clientSecret,
-  refreshToken: c.refresh
-})
 
 class HomeScreen extends React.Component {
   componentDidMount() {
-    async function getData() {
-      const me = await r.getHot('coys')
-      console.log(me)
-    }
-    getData()
-
     window.addEventListener('keydown', e => {
       const a = document.activeElement
       
