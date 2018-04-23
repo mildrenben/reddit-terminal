@@ -6,6 +6,14 @@ import v from '../../styles'
 const Root = styled.div`
   display: flex;
   align-items: stretch;
+  cursor: pointer;
+`
+
+const Cursor = styled.span`
+  display: block;
+  width: 0.45em;
+  margin-left: 0.1em;
+  border: solid 1px ${v.terminalCursor};
 `
 
 const Span = styled.span`
@@ -22,25 +30,12 @@ const Span = styled.span`
   }
 
   &:focus {
-    outline: none;    
-  }
-`
+    outline: none;
 
-const blink = keyframes`
-  0%, 49.99% {
-    background: ${v.terminalCursor};
+    + ${Cursor} {
+      background: ${v.terminalCursor};
+    }
   }
-  50%, 100% {
-    background: none;
-  }
-`
-
-const Cursor = styled.span`
-  display: block;
-  width: 0.45em;
-  margin-left: 0.1em;
-  background: ${v.terminalCursor};
-  animation: ${blink} 1s linear infinite;
 `
   
 class CommandLine extends React.Component {

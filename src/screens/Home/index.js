@@ -8,6 +8,7 @@ class HomeScreen extends React.Component {
   componentDidMount() {
     window.addEventListener('keydown', e => {
       const a = document.activeElement
+      const textInput = document.getElementById('textInput')
       
       if (e.metaKey && e.key === 't') {
         state.addTab()
@@ -21,6 +22,9 @@ class HomeScreen extends React.Component {
 
       // Focus on page
       if (a.id !== 'textInput') {
+        if (e.metaKey && e.altKey) {
+          textInput.focus()
+        }
         if (e.key === 'a') {
           state.runFake({ type: 'webpack' })
         }
@@ -31,6 +35,9 @@ class HomeScreen extends React.Component {
 
       // Focus on textInput
       if (a.id === 'textInput') {
+        if (e.metaKey && e.altKey) {
+          textInput.blur()
+        }
         if (e.key === 'Enter') {
           e.preventDefault()
           state.command({ message: e.target.textContent })
