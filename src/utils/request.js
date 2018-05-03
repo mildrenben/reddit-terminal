@@ -1,6 +1,7 @@
 import snoowrap from 'snoowrap'
 import state from '../store'
 import c from '../../config'
+import o from '../options'
 
 const r = new snoowrap({
   userAgent: '',
@@ -18,6 +19,6 @@ export async function getSub ({ sub, type, time }) {
 }
 
 export async function getMoreSub ({ sub, type }) {
-  const data = await state.subs[sub][type].fetchMore({ amount: 10 })
+  const data = await state.subs[sub][type].fetchMore({ amount: o.NEXT_AMOUNT })
   return data
 }

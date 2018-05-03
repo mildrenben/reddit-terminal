@@ -1,6 +1,7 @@
 import { store } from 'react-easy-state'
 import getFakeLines from '../utils/fakes/index'
 import getData, { getSub, getMoreSub } from '../utils/request'
+import o from '../options'
 
 const state = store({
   // DATA
@@ -65,7 +66,7 @@ const state = store({
 
   // Cmd - command line history
   async command({ message }) {
-    state.cmd = state.cmd.length === 100
+    state.cmd = state.cmd.length === o.COMMAND_LINE_HISTORY_LENGTH
       ? [...state.cmd.slice(1), message]
       : [message, ...state.cmd]
 
@@ -79,7 +80,7 @@ const state = store({
         const listing = await getMoreSub({ sub, type })
         state.subs[sub][type] = listing
         state.addNewLines({
-          lines: state.subs[sub][type].slice(-10).map(item => ({
+          lines: state.subs[sub][type].slice(o.NEXT_AMOUNT * -1).map(item => ({
             number: item.ups - item.downs,
             first: { text: item.title },
             second: { text: item.url },

@@ -1,4 +1,0 @@
-export default {
-  FAKE_LINES_LIMIT_LOWER: 10,
-  FAKE_LINES_LIMIT_UPPER: 10
-}
