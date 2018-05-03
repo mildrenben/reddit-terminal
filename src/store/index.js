@@ -1,6 +1,6 @@
 import { store } from 'react-easy-state'
 import getFakeLines from '../utils/fakes/index'
-import getData from '../utils/request'
+import getData, { getSub, getMoreSub } from '../utils/request'
 
 const state = store({
   // DATA
@@ -65,20 +65,44 @@ const state = store({
 
   // Cmd - command line history
   async command({ message }) {
-    state.cmd = state.cmd.length === 4
+    state.cmd = state.cmd.length === 100
       ? [...state.cmd.slice(1), message]
-      : [...state.cmd, message]
-    
-    const [sub, type, time] = message.split(' ')
-    const data = await getData({sub, type, time})
-    console.log(data)
-    state.addNewLines({
-      lines: data.map(d => ({
-        number: d.ups - d.downs,
-        first: { text: d.title },
-        second: { text: d.url }
-      }))
-    })
+      : [message, ...state.cmd]
+
+    if (message === 'next') {
+      if (state.cmd.length < 2) {
+        state.addNewLines({ lines: [{ first: { text: 'Nothing to hit next on', color: 'red' } }] })
+        return
+      } else {
+        const prevCmd = state.cmd.find(item => item !== 'next')
+        const [sub, type, time] = prevCmd.split(' ')
+        const listing = await getMoreSub({ sub, type })
+        state.subs[sub][type] = listing
+        state.addNewLines({
+          lines: state.subs[sub][type].slice(-10).map(item => ({
+            number: item.ups - item.downs,
+            first: { text: item.title },
+            second: { text: item.url },
+            third: { text: item.num_comments }
+          }))
+        })
+      }
+    } else {
+      const [sub, type, time] = message.split(' ')
+      const listing = await getSub({sub, type, time})
+
+      if (!state.subs[sub]) state.subs[sub] = {}
+      state.subs[sub][type] = listing
+
+      state.addNewLines({
+        lines: listing.map(item => ({
+          number: item.ups - item.downs,
+          first: { text: item.title },
+          second: { text: item.url },
+          third: { text: item.num_comments }
+        }))
+      })
+    }
   }
  })
 
