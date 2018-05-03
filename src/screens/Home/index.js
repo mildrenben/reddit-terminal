@@ -11,6 +11,7 @@ class HomeScreen extends React.Component {
       const a = document.activeElement
       const textInput = document.getElementById('textInput')
 
+      // Tab system
       if (e.metaKey && e.key === 't') {
         state.addTab()
       }
@@ -21,6 +22,12 @@ class HomeScreen extends React.Component {
         state.makeTabActive({ id: e.key - 1 })
       }
 
+      // Clear screen
+      if (e.ctrlKey && e.key === 'l') {
+        state.getActiveTab().lines = []
+      }
+
+      // Arrows up and down for cmd line
       if (e.key === 'ArrowUp' || e.key === 'ArrowDown') {
         e.preventDefault()
         const pos = state.ui.cmdArrowPosition
