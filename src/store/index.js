@@ -16,6 +16,7 @@ const state = store({
       { id: 0, name: 'Default (node.js)', lines: [], linesRead: 0 }
     ],
     cmdArrowPosition: 0,
+    isLoading: false
   },
 
   // ACTIONS
@@ -63,6 +64,14 @@ const state = store({
   addNewLines ({ lines = [] }) {
     const active = this.getActiveTab()
     active.lines = [...active.lines, ...lines]
+  },
+
+  // Loading
+  startLoading () {
+    state.ui.isLoading = true
+  },
+  stopLoading () {
+    state.ui.isLoading = false
   },
 
   // Cmd - command line history

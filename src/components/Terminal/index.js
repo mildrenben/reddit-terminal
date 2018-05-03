@@ -4,6 +4,7 @@ import styled from 'styled-components'
 import CommandLine from './CommandLine'
 import Line from './Line'
 import Body from './Body'
+import LoadingSpinner from '../LoadingSpinner'
 import getFakeLines from '../../utils/fakes'
 import { view } from 'react-easy-state'
 import state from '../../store'
@@ -44,7 +45,10 @@ class Terminal extends React.Component {
         />
         <Line first={{ text: '> press a to run all tests' }} />
         <Line first={{ text: '> press f to recompile' }} />
-        <CommandLine />
+        { state.ui.isLoading
+          ? <LoadingSpinner />
+          : <CommandLine />
+        }
       </Root>
     )
   }

@@ -11,14 +11,27 @@ const r = new snoowrap({
 })
 
 export async function getSub ({ sub, type, time }) {
-  const capitalisedType = type[0].toUpperCase() + type.slice(1)
-  const options = {}
-  if (time) options.time = time
-  const data = await r[`get${capitalisedType}`](sub, options)
-  return data
+  try {
+    state.startLoading()
+    const capitalisedType = type[0].toUpperCase() + type.slice(1)
+    const options = {}
+    if (time) options.time = time
+    const data = await r[`get${capitalisedType}`](sub, options)
+    state.stopLoading()
+    return data
+  } catch(e) {
+    state.stopLoading()
+  }
+  
 }
 
 export async function getMoreSub ({ sub, type }) {
-  const data = await state.subs[sub][type].fetchMore({ amount: o.NEXT_AMOUNT })
-  return data
+  try {
+    state.startLoading()
+    const data = await state.subs[sub][type].fetchMore({ amount: o.NEXT_AMOUNT })
+    state.stopLoading()
+    return data
+  } catch (e) {
+    state.stopLoading()
+  }
 }
