@@ -3,13 +3,14 @@ import Terminal from '../../components/Terminal'
 import state from '../../store'
 import { view } from 'react-easy-state'
 import getFakeLines from '../../utils/fakes'
+import o from '../../options'
 
 class HomeScreen extends React.Component {
   componentDidMount() {
     window.addEventListener('keydown', e => {
       const a = document.activeElement
       const textInput = document.getElementById('textInput')
-      
+
       if (e.metaKey && e.key === 't') {
         state.addTab()
       }
@@ -18,6 +19,23 @@ class HomeScreen extends React.Component {
       }
       if (e.metaKey && !isNaN(e.key)) {
         state.makeTabActive({ id: e.key - 1 })
+      }
+
+      if (e.key === 'ArrowUp' || e.key === 'ArrowDown') {
+        e.preventDefault()
+        const pos = state.ui.cmdArrowPosition
+        if (
+          (pos === o.COMMAND_LINE_HISTORY_LENGTH && e.key === 'ArrowUp') || 
+          (pos === state.cmd.length && e.key === 'ArrowUp') || 
+          (pos === 0 && e.key === 'ArrowDown')
+        ) {
+          return
+        } else {
+          state.ui.cmdArrowPosition = e.key === 'ArrowUp'
+            ? pos + 1
+            : pos - 1
+          textInput.textContent = state.cmd[state.ui.cmdArrowPosition - 1] || ''
+        }
       }
 
       // Focus on page

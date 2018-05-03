@@ -14,7 +14,8 @@ const state = store({
       // linesRead defines the amount of lines the terminal 
       // has 'ran' through
       { id: 0, name: 'Default (node.js)', lines: [], linesRead: 0 }
-    ]
+    ],
+    cmdArrowPosition: 0,
   },
 
   // ACTIONS
@@ -66,9 +67,13 @@ const state = store({
 
   // Cmd - command line history
   async command({ message }) {
+    // Write to cmd history. Only go to the history limit
     state.cmd = state.cmd.length === o.COMMAND_LINE_HISTORY_LENGTH
       ? [...state.cmd.slice(1), message]
       : [message, ...state.cmd]
+
+    // Reset the cmdArrowPosition
+    state.ui.cmdArrowPosition = 0
 
     if (message === 'next') {
       if (state.cmd.length < 2) {
