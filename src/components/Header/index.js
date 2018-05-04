@@ -4,6 +4,8 @@ import Button from '../Button'
 import v from '../../styles'
 import styled from 'styled-components'
 import { view } from 'react-easy-state'
+import Icon from '../../components/Icon'
+import { Link } from 'react-router-dom'
 import state from '../../store'
 
 const SHeader = styled.header`
@@ -18,6 +20,11 @@ const SHeader = styled.header`
 
 const AddButton = Button.extend`
   margin-left: 0.2em;
+`
+
+const IconWrap = styled.div`
+  margin-left: auto;
+  margin-right: 1em;
 `
 
 class Header extends React.Component {
@@ -37,6 +44,11 @@ class Header extends React.Component {
           <Tab tab={tab} key={`tab-${tab.id}`} active={tab.id === state.ui.activeTab} />
         )}
         <AddButton onClick={this.addTab}>＋</AddButton>
+        <IconWrap>
+          <Link to='/settings'>
+            <Icon name='settings' color={v.greyText} width={'14px'} height={'14px'} />
+          </Link>
+        </IconWrap>
       </SHeader>
     )
   }
