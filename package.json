@@ -34,6 +34,7 @@
     "concurrently": "3.5.1",
     "express": "4.16.2",
     "react-hot-loader": "4.0.1",
+    "svg-sprite-loader": "^3.7.3",
     "webpack": "3.11.0",
     "webpack-dev-middleware": "2.0.6",
     "webpack-hot-middleware": "2.21.0"
