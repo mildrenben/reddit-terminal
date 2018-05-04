@@ -28,7 +28,7 @@ const COMMANDS = [
   { action: 'Switch tab', keys: '⌘ + [0-9]'},
   { action: 'Clear screen', keys: 'ctrl + l'},
   { action: 'Previous/next commands', keys: 'up/down arrow'},
-  { action: 'Focus command line', keys: 'ctrl + alt'}
+  { action: 'Focus command line', keys: '⌘ + alt'}
 ]
 
 const SUBS = [
