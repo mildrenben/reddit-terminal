@@ -1,6 +1,6 @@
 import { store } from 'react-easy-state'
 import getFakeLines from '../utils/fakes/index'
-import getData, { getSub, getMoreSub } from '../utils/request'
+import getData, { getSub, getMoreSub, getComments } from '../utils/request'
 import o from '../options'
 
 const state = store({
@@ -92,9 +92,9 @@ const state = store({
         const prevCmd = state.cmd.find(item => item !== 'next')
         const [sub, type, time] = prevCmd.split(' ')
         const listing = await getMoreSub({ sub, type })
-        state.subs[sub][type] = listing
+        state.subs[sub][type].listing = listing
         state.addNewLines({
-          lines: state.subs[sub][type].slice(o.NEXT_AMOUNT * -1).map(item => ({
+          lines: listing.slice(o.NEXT_AMOUNT * -1).map(item => ({
             number: item.ups - item.downs,
             first: { text: item.title },
             second: { text: item.url },
@@ -107,8 +107,7 @@ const state = store({
       const listing = await getSub({sub, type, time})
 
       if (!state.subs[sub]) state.subs[sub] = {}
-      state.subs[sub][type] = listing
-
+      state.subs[sub][type].listing = listing
       state.addNewLines({
         lines: listing.map(item => ({
           number: item.ups - item.downs,
@@ -118,6 +117,11 @@ const state = store({
         }))
       })
     }
+  },
+
+  async getComments({ id }) {
+    const comments = await state.getComments({ id })
+    console.log(comments)
   }
  })
 

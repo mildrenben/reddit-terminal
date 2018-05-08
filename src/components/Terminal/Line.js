@@ -25,13 +25,13 @@ const COLORS = ['pure', 'white', 'yellow', 'red', 'blue']
 
 class Line extends React.Component {
   render() {
-    const { number, first, second, third, fourth, fifth } = this.props
+    const { number, first, second, third, fourth, fifth, onClick } = this.props
     const ORDER = [first, second, third, fourth, fifth]
     // I tried using padStart but React does not render
     // empty space at the start of a string :(
     const numPadLeft = (3 - String(number).length) * 0.6
     return (
-      <Root>
+      <Root onClick={onClick}>
         { number && 
           <Num padLeft={numPadLeft}>{`[${number}]`}</Num> 
         }
@@ -66,6 +66,8 @@ Line.propTypes = {
   third: PropTypes.shape(shape),
   fourth: PropTypes.shape(shape),
   fifth: PropTypes.shape(shape),
+  link: PropTypes.string,
+  onClick: PropTypes.func
 }
   
 export default Line

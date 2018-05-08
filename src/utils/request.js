@@ -22,7 +22,6 @@ export async function getSub ({ sub, type, time }) {
   } catch(e) {
     state.stopLoading()
   }
-  
 }
 
 export async function getMoreSub ({ sub, type }) {
@@ -32,6 +31,18 @@ export async function getMoreSub ({ sub, type }) {
     state.stopLoading()
     return data
   } catch (e) {
+    state.stopLoading()
+  }
+}
+
+export async function getComments ({ id }) {
+  try {
+    state.startLoading()
+    const submission = await r.getSubmission('8gtrtf')
+    const comments = await submission.comments.fetchAll()
+    state.stopLoading()
+    return comments
+  } catch(e) {
     state.stopLoading()
   }
 }
