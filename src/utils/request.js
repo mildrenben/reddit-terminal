@@ -7,7 +7,7 @@ const r = new snoowrap({
   userAgent: '',
   clientId: c.clientId,
   clientSecret: c.clientSecret,
-  refreshToken: c.refresh
+  refreshToken: c.refreshToken,
 })
 
 export async function getSub ({ sub, type, time }) {

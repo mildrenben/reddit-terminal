@@ -106,7 +106,23 @@ const state = store({
       const [sub, type, time] = message.split(' ')
       const listing = await getSub({sub, type, time})
 
-      if (!state.subs[sub]) state.subs[sub] = {}
+      console.log(type)
+
+      // If sub does not already exist in state, create it
+      if (!state.subs[sub]) {
+        state.subs[sub] = { 
+          [type]: {} 
+        }
+      }
+
+      // If sub exists but type does not, create that type
+      if (!state.subs[sub][type]) {
+        state.subs[sub] = {
+          ...state.subs[sub],
+          [type]: {}
+        }
+      }
+
       state.subs[sub][type].listing = listing
       state.addNewLines({
         lines: listing.map(item => ({
