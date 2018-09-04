@@ -23,7 +23,6 @@ class LoadingSpinner extends Component {
     clearInterval(this.interval)
   }
   render() {
-    console.log(this.state, CHARS, CHARS[this.state.position])
     return (
       <span>{CHARS[this.state.position]}</span>
     )

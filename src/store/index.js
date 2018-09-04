@@ -84,6 +84,7 @@ const state = store({
     // Reset the cmdArrowPosition
     state.ui.cmdArrowPosition = 0
 
+    // Decide what action to perform based on message
     if (message === 'next') {
       if (state.cmd.length < 2) {
         state.addNewLines({ lines: [{ first: { text: 'Nothing to hit next on', color: 'red' } }] })
@@ -92,6 +93,7 @@ const state = store({
         const prevCmd = state.cmd.find(item => item !== 'next')
         const [sub, type, time] = prevCmd.split(' ')
         const listing = await getMoreSub({ sub, type })
+        console.log(listing, state.subs[sub])
         state.subs[sub][type].listing = listing
         state.addNewLines({
           lines: listing.slice(o.NEXT_AMOUNT * -1).map(item => ({
@@ -105,8 +107,6 @@ const state = store({
     } else {
       const [sub, type, time] = message.split(' ')
       const listing = await getSub({sub, type, time})
-
-      console.log(type)
 
       // If sub does not already exist in state, create it
       if (!state.subs[sub]) {
@@ -123,7 +123,10 @@ const state = store({
         }
       }
 
+      // Add listing to state
       state.subs[sub][type].listing = listing
+
+      // Add new lines to state
       state.addNewLines({
         lines: listing.map(item => ({
           number: item.ups - item.downs,
