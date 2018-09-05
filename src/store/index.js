@@ -1,6 +1,6 @@
 import { store } from 'react-easy-state'
 import getFakeLines from '../utils/fakes/index'
-import getData, { getSub, getMoreSub, getComments } from '../utils/request'
+import getData, { getSub, getNextSub, getComments } from '../utils/request'
 import o from '../options'
 
 const state = store({
@@ -91,9 +91,22 @@ const state = store({
         return
       } else {
         const prevCmd = state.cmd.find(item => item !== 'next')
-        const [sub, type, time] = prevCmd.split(' ')
-        const listing = await getMoreSub({ sub, type })
+
+        let [sub, type, time] = prevCmd.split(' ')
+
+        // Default to 'hot' if nothing specified
+        if (!type) {
+          type = 'hot'
+        }
+
+
+        // Get more from that listing
+        const listing = await getNextSub({ sub, type })
+
+        // Overwrite old listing with new larger listing
         state.subs[sub][type].listing = listing
+
+        // Add new lines to state
         state.addNewLines({
           lines: listing.slice(o.NEXT_AMOUNT * -1).map(item => ({
             number: item.ups - item.downs,
@@ -110,10 +123,13 @@ const state = store({
         // Maybe in future set an error message for the user here?
         return
       }
+
       // Default to 'hot' if nothing specified
       if (!type) {
         type = 'hot'
       }
+      
+      // Get the listing
       const listing = await getSub({sub, type, time})
 
       // If sub does not exist or is banned then return

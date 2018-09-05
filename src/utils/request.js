@@ -10,7 +10,7 @@ const r = new snoowrap({
   refreshToken: c.refreshToken,
 })
 
-export async function getSub ({ sub, type, time }) {
+export async function getSub ({ sub, type = 'hot', time }) {
   try {
     state.startLoading()
     const capitalisedType = type[0].toUpperCase() + type.slice(1)
@@ -20,17 +20,19 @@ export async function getSub ({ sub, type, time }) {
     state.stopLoading()
     return data
   } catch(e) {
+    console.error(e)
     state.stopLoading()
   }
 }
 
-export async function getMoreSub ({ sub, type }) {
+export async function getNextSub ({ sub, type = 'hot'}) {
   try {
     state.startLoading()
-    const data = await state.subs[sub][type].fetchMore({ amount: o.NEXT_AMOUNT })
+    const data = await state.subs[sub][type].listing.fetchMore({ amount: o.NEXT_AMOUNT })
     state.stopLoading()
     return data
   } catch (e) {
+    console.error(e)
     state.stopLoading()
   }
 }
@@ -43,6 +45,7 @@ export async function getComments ({ id }) {
     state.stopLoading()
     return comments
   } catch(e) {
+    console.error(e)
     state.stopLoading()
   }
 }
