@@ -23,6 +23,7 @@ const Item = ({ action, keys }) => (
 )
 
 const COMMANDS = [
+  { action: 'Get subreddit', keys: 'SUB TYPE TIME' },
   { action: 'New tab', keys: '⌘ + t'},
   { action: 'Kill tab', keys: '⌘ + k'},
   { action: 'Switch tab', keys: '⌘ + [0-9]'},
