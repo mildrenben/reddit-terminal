@@ -128,6 +128,11 @@ const state = store({
       if (!type) {
         type = 'hot'
       }
+
+      // Check that 'time' is a correct string
+      if (!['hour', 'day', 'week', 'month', 'year', 'all'].includes(time)) {
+        time = undefined
+      }
       
       // Get the listing
       const listing = await getSub({sub, type, time})
