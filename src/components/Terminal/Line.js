@@ -55,7 +55,7 @@ class Line extends React.Component {
 }
 
 const shape = {
-  text: PropTypes.string.isRequired,
+  text: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
   color: PropTypes.oneOf(['pure', 'white', 'yellow', 'red', 'blue', 'green'])
 }
 
