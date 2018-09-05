@@ -21,6 +21,13 @@ const Text = styled.span`
   display: inline-block;
 `
 
+const LinkText = styled.a`
+  color: ${props => v[props.color + 'Text']};
+  margin-right: 1em;
+  display: inline-block;
+  text-decoration: none;
+`
+
 const COLORS = ['pure', 'white', 'yellow', 'red', 'blue']
 
 class Line extends React.Component {
@@ -30,6 +37,7 @@ class Line extends React.Component {
     // I tried using padStart but React does not render
     // empty space at the start of a string :(
     const numPadLeft = (3 - String(number).length) * 0.6
+
     return (
       <Root onClick={onClick}>
         { number && 
@@ -38,7 +46,21 @@ class Line extends React.Component {
         {
           Array(5).fill('').map((i, idx) => {
             const elem = ORDER[idx]
-            if (!elem) return null
+            if (!elem) {
+              return null
+            }
+            if (typeof elem.text === 'string' && elem.text.startsWith('http')) {
+              return (
+                <LinkText
+                  href={elem.text} 
+                  target='_blank' 
+                  color={(elem && elem.color) || COLORS[idx]}
+                  key={`text-${idx}`}
+                >
+                  {elem.text}
+                </LinkText>
+              )
+            }
             return (
               <Text 
                 color={(elem && elem.color) || COLORS[idx]}
