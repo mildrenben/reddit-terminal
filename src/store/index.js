@@ -93,7 +93,6 @@ const state = store({
         const prevCmd = state.cmd.find(item => item !== 'next')
         const [sub, type, time] = prevCmd.split(' ')
         const listing = await getMoreSub({ sub, type })
-        console.log(listing, state.subs[sub])
         state.subs[sub][type].listing = listing
         state.addNewLines({
           lines: listing.slice(o.NEXT_AMOUNT * -1).map(item => ({
@@ -105,8 +104,23 @@ const state = store({
         })
       }
     } else {
-      const [sub, type, time] = message.split(' ')
+      let [sub, type, time] = message.split(' ')
+      // If there is no sub then return
+      if (!sub) {
+        // Maybe in future set an error message for the user here?
+        return
+      }
+      // Default to 'hot' if nothing specified
+      if (!type) {
+        type = 'hot'
+      }
       const listing = await getSub({sub, type, time})
+
+      // If sub does not exist or is banned then return
+      if (!listing || listing.length === 0) {
+        // Maybe in future set an error message for the user here?
+        return
+      }
 
       // If sub does not already exist in state, create it
       if (!state.subs[sub]) {

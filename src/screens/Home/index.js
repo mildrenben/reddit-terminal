@@ -45,7 +45,7 @@ class HomeScreen extends React.Component {
         }
       }
 
-      // Focus on page
+      // Focus is on page
       if (a.id !== 'textInput') {
         if (e.metaKey && e.altKey) {
           textInput.focus()
@@ -58,7 +58,7 @@ class HomeScreen extends React.Component {
         }
       }
 
-      // Focus on textInput
+      // Focus is on textInput
       if (a.id === 'textInput') {
         if (e.metaKey && e.altKey) {
           textInput.blur()
